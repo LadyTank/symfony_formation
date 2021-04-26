@@ -12,7 +12,7 @@ LES COMPOSANTS
  - monolog : outil pour gérer les journaux de logiciels (historique, journaux d'utilisation)
  - API : sert à créer une architecture pour que le dev front puisse accéder à ses données
 
-On peut utiliser chacun de ses composants séparemment 
+On peut utiliser chacun de ces composants séparemment 
 
 COMPOSER
 Ces composants sont installés avec un outil PHP -> Composer 
@@ -37,6 +37,8 @@ composer create-project symfony/website-skeleton nom_de_mon_projet
   Intérêt :
   1/ Façon d'organiser le code à plusieurs : (ex. Pour les Intégrateurs)
   2/ Façon d'optimiser les performances : (ex. séparant le code qui requête la BDD du code qui fait le rendu visuel.)
+
+  D'autres architectures existent (ADR -> Action Domain Responder, DDD -> Domain Driven Design, etc.)
 
   Une route :
 - Elle est légèrement différente d'une URL 
