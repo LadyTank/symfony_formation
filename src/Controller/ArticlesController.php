@@ -42,6 +42,7 @@ class ArticlesController extends AbstractController
 
         // fonctionnalité de symfony équivalente au var_dump. Le resultat sera indiqué dans le profileur sur le navigateur
         dump($articles);
+        // dd($articles);
 
         return $this -> render('articles/index.html.twig', [
             'posts' => $articles
