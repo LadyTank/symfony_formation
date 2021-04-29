@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\ArticlesRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 class ArticlesController extends AbstractController
@@ -12,37 +14,13 @@ class ArticlesController extends AbstractController
  /**
  * @Route("/articles/", name="articles_index")
  */
-    public function index()
+    public function index(ArticlesRepository $articlesRepository, Request $truc)
     {
-        $articles = []; //création du tableau
-
-        $articles [] = [ // ajout d'un tableau dans le tableau $articles
-            'id' => 1,
-            'auteur' => 'Katia',
-            'titre' => 'Un titre',
-            'description' => 'lorem ipsum',
-            'date_publication' => '2021-05-01'
-        ];
-
-        $articles [] = [
-            'id' => 2,
-            'auteur' => 'Justine',
-            'titre' => 'Un titre2',
-            'description' => 'lorem ipsum',
-            'date_publication' => '2021-05-02'
-        ];
-
-        $articles [] = [
-            'id' => 3,
-            'auteur' => 'Audrey',
-            'titre' => 'Un titre3',
-            'description' => 'lorem ipsum',
-            'date_publication' => '2021-05-03'
-        ];
+        $articles = $articlesRepository->FindAll();
 
         // fonctionnalité de symfony équivalente au var_dump. Le resultat sera indiqué dans le profileur sur le navigateur
-        dump($articles);
-        // dd($articles);
+        dump($truc);
+        // dd($truc);
 
         return $this -> render('articles/index.html.twig', [
             'posts' => $articles

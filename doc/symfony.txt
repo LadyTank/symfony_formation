@@ -91,7 +91,38 @@ Les propriétés vont représenter les champs de la table.
 Seules les propriétés qui auront été marquées par des annotations seront converties dans la BDD en champs.
 Pour créer la table, il faut lancer la console : 
 php bin/console doctrine:schema:update --force 
-(déconseillé car pas de migration)
+(déconseillé car pas de migration. Requête pour faire une migration: php bin/console make:migration)
 Pour générer plus facilement les entités, on peut utiliser :
 php bin/console make:entity
+ 
+Trois façons de créer une table :
+1/ Version compliquée, on se prend la tête   
+        * Créer une nouvelle classe dans entity et l'annoter avec @ORM\ENtity
+        * Dans cette classe on créera nos intitulés de colonnes que l'on définiera grâce aux annotations
+        * On fait un getter pour l'id et un getter et un setter pour les autres intitulés de colonnes 
+        * Aller dans la console et taper `php bin/console doctrine:schema:update --force`
 
+2/ version moins compliquée mais pas propre quand même
+        * dans la console on met : ` php bin/console make:entity`
+        * la console nous propose de créer les colonnes et de leur donner une valeur (pas besoin de l'index / ajouter automatiquement)
+        * on vérifie ce qu'il y a dans notre page qui a été créée 
+        * Aller dans la console et taper `php bin/console doctrine:schema:update --force`
+
+3/ version moins compliquée et propre
+        * dans la console on met : ` php bin/console make:entity`
+        * la console nous propose de créer les colonnes et de leur donner une valeur (pas besoin de l'index / ajouter automatiquement)
+        * on vérifie ce qu'il y a dans notre page qui a été créée 
+        * Aller dans la console et taper `php bin/console make:migration`
+        * Vérifier la classe créée
+        * Lancer dans la console : `php bin/console doctrine:migrations:migrate` ou pour les feignasses : `php bin/console d:m:m`
+
+REPOSITORY
+À côté de l'entité est créé un repository qui servira à contenir les fonctions de recherche dans la base de données.
+
+INJECTION DE DÉPENDANCES (Dependency injection)
+Lorsque l'on travaille dans le contrôleur on aura besoin de nombreux outils externes : l'outil de recherche en BDD (repository), un outil d'envoi de mail (mailer), un pour chiffrer un mot de passe, etc.
+Dans Symfony on accède facilement à ces instances grâce à l'injection de dépendances; il suffit d'écrire le type et un nom de variable dans la méthode. Si Symfony connait ce type il l'instanciera et le fournira. (cf. ArticlesController.php, paramètres méthode index()).
+Quand Symfony met en relation nos fonctions et ses dépendances on parle d'autowiring.
+
+La liste complète des dépendances utilisables :
+`php bin/console debug:autowiring`

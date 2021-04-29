@@ -78,12 +78,12 @@ class Articles
         return $this;
     }
 
-    public function getDatePublication(): ?\DateTimeInterface
+    public function getDate_Publication(): ?\DateTimeInterface
     {
         return $this->date_publication;
     }
 
-    public function setDatePublication(\DateTimeInterface $date_publication): self
+    public function setDate_Publication(\DateTimeInterface $date_publication): self
     {
         $this->date_publication = $date_publication;
 
