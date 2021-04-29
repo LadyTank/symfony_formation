@@ -72,3 +72,11 @@ Flex :
 - Aucun rapport avec flex de CSS.
 - Flex dans le sens de symfony flex est un logiciel qui sert à installer des composants.
 - Les developpeurs écrivent des recettes qui expliquent comment s'installent les composants de symfony.
+
+2/ utiliser un commentaire multiligne pour donner une @Route
+3/debug avec php bin/console debug:router 
+4/voir ArticlesController.php
+
+ENTITÉE
+Une table sera représentée par une class dans Symfony.
+Les propriétés vont représentés les champs de la table.
