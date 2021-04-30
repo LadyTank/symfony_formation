@@ -26,29 +26,41 @@ composer create-project symfony/website-skeleton nom_de_mon_projet
 
 
  **********************************************
-                   ARCHITECTURE MVC 
-  **********************************************
+                  ARCHITECTURE MVC 
+**********************************************
 
-  Une facon d'écrire du code (Patron de conception, ou Pattern) en séparant 3 éléments  :
-  - Modèle (model) : L'ensemble du code qui va intéragir avec la BDD. 
-  - Vue (view) : Tout ce qui concerne le rendu visuel.
-  - Contrôleur (controller) : Il fera le lien entre le modèle et la vue (au moyen d'une route).
+Une facon d'écrire du code (Patron de conception, ou Pattern) en séparant 3 éléments  :
+- Modèle (model) : L'ensemble du code qui va intéragir avec la BDD. 
+- Vue (view) : Tout ce qui concerne le rendu visuel.
+- Contrôleur (controller) : Il fera le lien entre le modèle et la vue (au moyen d'une route).
 
-  Intérêt :
-  1/ Façon d'organiser le code à plusieurs : (ex. Pour les Intégrateurs)
-  2/ Façon d'optimiser les performances : (ex. séparant le code qui requête la BDD du code qui fait le rendu visuel.)
+Intérêt :
+1/ Façon d'organiser le code à plusieurs : (ex. Pour les Intégrateurs)
+2/ Façon d'optimiser les performances : (ex. séparant le code qui requête la BDD du code qui fait le rendu visuel.)
 
-  D'autres architectures existent (ADR -> Action Domain Responder, DDD -> Domain Driven Design, etc.)
+D'autres architectures existent (ADR -> Action Domain Responder, DDD -> Domain Driven Design, etc.)
 
-  Une route :
+ANNOTATIONS
+Symfony utilise des annotations pour définir des propriétés en plus du code.
+/* Exemple de commentaire multiligne */
+/** Exemple d'annotation */
+Une annotation commence par @ et doit être importée avec un use...
+
+Une route :
 - Elle est légèrement différente d'une URL 
 - Morceau d'URL à laquelle va correspondre une action dans notre application 
 ex :
-- /articles: récupération de tous les articles
-- /articles/new : créer un article 
-- /articles/1 : afficher l'article 1
-- /articles/1/edit : modifier l'article 1
+- /articles          : récupération de tous les articles
+- /articles/new      : créer un article 
+- /articles/1        : afficher l'article 1
+- /articles/1/edit   : modifier l'article 1
 - /articles/1/delete : supprimer l'article 1
+
+Pour créer une route, il y a plusieurs façon, nous utiliserons d'abord 
+1/ Installation : composer require annotations
+2/ utiliser un commentaire miltiligne pour donner une @Route
+3/debug avec php bin/console debug:router 
+4/voir ArticlesController.php
 
 Les répertoires :
 
@@ -73,6 +85,7 @@ Flex :
 - Flex dans le sens de symfony flex est un logiciel qui sert à installer des composants.
 - Les developpeurs écrivent des recettes qui expliquent comment s'installent les composants de symfony.
 
+<<<<<<< HEAD
 2/ utiliser un commentaire multiligne pour donner une @Route
 3/debug avec php bin/console debug:router 
 4/voir ArticlesController.php
@@ -80,3 +93,46 @@ Flex :
 ENTITÉE
 Une table sera représentée par une class dans Symfony.
 Les propriétés vont représentés les champs de la table.
+=======
+ENTITÉ
+Une table sera représentée par une classe dans Symfony. 
+Les propriétés vont représenter les champs de la table.
+Seules les propriétés qui auront été marquées par des annotations seront converties dans la BDD en champs.
+Pour créer la table, il faut lancer la console : 
+php bin/console doctrine:schema:update --force 
+(déconseillé car pas de migration. Requête pour faire une migration: php bin/console make:migration)
+Pour générer plus facilement les entités, on peut utiliser :
+php bin/console make:entity
+ 
+Trois façons de créer une table :
+1/ Version compliquée, on se prend la tête   
+        * Créer une nouvelle classe dans entity et l'annoter avec @ORM\ENtity
+        * Dans cette classe on créera nos intitulés de colonnes que l'on définiera grâce aux annotations
+        * On fait un getter pour l'id et un getter et un setter pour les autres intitulés de colonnes 
+        * Aller dans la console et taper `php bin/console doctrine:schema:update --force`
+
+2/ version moins compliquée mais pas propre quand même
+        * dans la console on met : ` php bin/console make:entity`
+        * la console nous propose de créer les colonnes et de leur donner une valeur (pas besoin de l'index / ajouter automatiquement)
+        * on vérifie ce qu'il y a dans notre page qui a été créée 
+        * Aller dans la console et taper `php bin/console doctrine:schema:update --force`
+
+3/ version moins compliquée et propre
+        * dans la console on met : ` php bin/console make:entity`
+        * la console nous propose de créer les colonnes et de leur donner une valeur (pas besoin de l'index / ajouter automatiquement)
+        * on vérifie ce qu'il y a dans notre page qui a été créée 
+        * Aller dans la console et taper `php bin/console make:migration`
+        * Vérifier la classe créée
+        * Lancer dans la console : `php bin/console doctrine:migrations:migrate` ou pour les feignasses : `php bin/console d:m:m`
+
+REPOSITORY
+À côté de l'entité est créé un repository qui servira à contenir les fonctions de recherche dans la base de données.
+
+INJECTION DE DÉPENDANCES (Dependency injection)
+Lorsque l'on travaille dans le contrôleur on aura besoin de nombreux outils externes : l'outil de recherche en BDD (repository), un outil d'envoi de mail (mailer), un pour chiffrer un mot de passe, etc.
+Dans Symfony on accède facilement à ces instances grâce à l'injection de dépendances; il suffit d'écrire le type et un nom de variable dans la méthode. Si Symfony connait ce type il l'instanciera et le fournira. (cf. ArticlesController.php, paramètres méthode index()).
+Quand Symfony met en relation nos fonctions et ses dépendances on parle d'autowiring.
+
+La liste complète des dépendances utilisables :
+`php bin/console debug:autowiring`
+>>>>>>> 1dc0454e9196eb32dde15d80b214e31a97d85273
